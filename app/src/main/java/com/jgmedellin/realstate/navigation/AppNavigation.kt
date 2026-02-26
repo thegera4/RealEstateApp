@@ -64,7 +64,10 @@ val bottomNavItems = listOf(
 )
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(
+    isDarkMode: Boolean,
+    onToggleTheme: (Boolean) -> Unit
+) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -189,6 +192,8 @@ fun AppNavigation() {
             composable(Screen.Settings.route) {
                 Box(modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())) {
                     SettingsScreen(
+                        isDarkMode = isDarkMode,
+                        onToggleTheme = onToggleTheme,
                         onLogout = {
                             AuthRepository.signOut()
                             navController.navigate(Screen.Login.route) {

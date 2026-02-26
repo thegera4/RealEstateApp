@@ -28,7 +28,11 @@ import com.jgmedellin.realstate.data.repository.MockRepository
 import com.jgmedellin.realstate.ui.theme.*
 
 @Composable
-fun SettingsScreen(onLogout: () -> Unit = {}) {
+fun SettingsScreen(
+    isDarkMode: Boolean,
+    onToggleTheme: (Boolean) -> Unit,
+    onLogout: () -> Unit = {}
+) {
     val user = remember { MockRepository.currentUser }
     var showEditDialog by remember { mutableStateOf(false) }
 
@@ -109,47 +113,6 @@ fun SettingsScreen(onLogout: () -> Unit = {}) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Settings Sections
-        Text(
-            text = "ACCOUNT",
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
-        ) {
-            Column {
-                SettingsItem(
-                    icon = Icons.Filled.Person,
-                    title = "Edit Profile",
-                    subtitle = "Update your personal information",
-                    onClick = { showEditDialog = true }
-                )
-                HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f), modifier = Modifier.padding(horizontal = 16.dp))
-                SettingsItem(
-                    icon = Icons.Filled.Notifications,
-                    title = "Notifications",
-                    subtitle = "Manage notification preferences",
-                    onClick = { }
-                )
-                HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f), modifier = Modifier.padding(horizontal = 16.dp))
-                SettingsItem(
-                    icon = Icons.Filled.Lock,
-                    title = "Privacy & Security",
-                    subtitle = "Password, 2FA, and data settings",
-                    onClick = { }
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
         Text(
             text = "PREFERENCES",
             style = MaterialTheme.typography.labelLarge,
@@ -165,50 +128,61 @@ fun SettingsScreen(onLogout: () -> Unit = {}) {
             elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
         ) {
             Column {
-                SettingsItem(
-                    icon = Icons.Filled.DarkMode,
-                    title = "Theme",
-                    subtitle = "Dark mode",
-                    onClick = { }
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onToggleTheme(!isDarkMode) }
+                        .padding(horizontal = 16.dp, vertical = 14.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                            .background(PrimaryBlue.copy(alpha = 0.1f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = if (isDarkMode) Icons.Filled.DarkMode else Icons.Filled.LightMode,
+                            contentDescription = null,
+                            tint = PrimaryBlue,
+                            modifier = Modifier.size(22.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(14.dp))
+
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = "Dark Mode",
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Text(
+                            text = if (isDarkMode) "Enabled" else "Disabled",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+
+                    Switch(
+                        checked = isDarkMode,
+                        onCheckedChange = onToggleTheme,
+                        colors = SwitchDefaults.colors(
+                            checkedThumbColor = Color.White,
+                            checkedTrackColor = PrimaryBlue,
+                            uncheckedThumbColor = Color.White,
+                            uncheckedTrackColor = if (isDarkMode) Color.Gray else Color.LightGray,
+                            uncheckedBorderColor = Color.Transparent
+                        )
+                    )
+                }
                 HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f), modifier = Modifier.padding(horizontal = 16.dp))
                 SettingsItem(
                     icon = Icons.Filled.Language,
                     title = "Language",
                     subtitle = "English",
-                    onClick = { }
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Text(
-            text = "SUPPORT",
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
-        ) {
-            Column {
-                SettingsItem(
-                    icon = Icons.AutoMirrored.Filled.HelpOutline,
-                    title = "Help & Support",
-                    subtitle = "FAQs, contact support",
-                    onClick = { }
-                )
-                HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f), modifier = Modifier.padding(horizontal = 16.dp))
-                SettingsItem(
-                    icon = Icons.Filled.Info,
-                    title = "About",
-                    subtitle = "Version 1.0.0",
                     onClick = { }
                 )
             }
