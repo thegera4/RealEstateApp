@@ -55,7 +55,9 @@ fun MaintenanceScreen() {
     val routineTasks = filteredTasks.filter { !it.isCompleted && (it.priority == TaskPriority.MEDIUM || it.priority == TaskPriority.LOW) }
     val completedTasks = filteredTasks.filter { it.isCompleted }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .statusBarsPadding()) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -259,12 +261,9 @@ fun MaintenanceScreen() {
 
 @Composable
 fun TaskCard(task: MaintenanceTask) {
-    val (priorityColor, priorityBg) = when (task.priority) {
-        TaskPriority.URGENT -> StatusUrgent to StatusUrgentBg
-        TaskPriority.HIGH -> StatusHigh to StatusHighBg
-        TaskPriority.MEDIUM -> StatusMedium to StatusMediumBg
-        TaskPriority.LOW -> StatusLow to StatusLowBg
-    }
+    val priorityPair = getPriorityColors(task.priority)
+    val priorityColor = priorityPair.first
+    val priorityBg = priorityPair.second
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -471,12 +470,9 @@ fun AddMaintenanceTaskBottomSheet(onDismiss: () -> Unit) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 TaskPriority.entries.forEach { priority ->
                     val isSelected = selectedPriority == priority
-                    val (color, bg) = when (priority) {
-                        TaskPriority.URGENT -> StatusUrgent to StatusUrgentBg
-                        TaskPriority.HIGH -> StatusHigh to StatusHighBg
-                        TaskPriority.MEDIUM -> StatusMedium to StatusMediumBg
-                        TaskPriority.LOW -> StatusLow to StatusLowBg
-                    }
+                    val pair = getPriorityColors(priority)
+                    val color = pair.first
+                    val bg = pair.second
                     FilterChip(
                         selected = isSelected,
                         onClick = { selectedPriority = priority },
@@ -538,6 +534,15 @@ fun AddMaintenanceTaskBottomSheet(onDismiss: () -> Unit) {
 
             Spacer(modifier = Modifier.height(32.dp))
         }
+    }
+}
+
+fun getPriorityColors(priority: TaskPriority): Pair<Color, Color> {
+    return when (priority) {
+        TaskPriority.URGENT -> Pair(StatusUrgent, StatusUrgentBg)
+        TaskPriority.HIGH -> Pair(StatusHigh, StatusHighBg)
+        TaskPriority.MEDIUM -> Pair(StatusMedium, StatusMediumBg)
+        TaskPriority.LOW -> Pair(StatusLow, StatusLowBg)
     }
 }
 

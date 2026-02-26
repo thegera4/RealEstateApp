@@ -54,7 +54,9 @@ fun DashboardScreen(onPropertyClick: (String) -> Unit) {
         matchesFilter && matchesSearch
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .statusBarsPadding()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -190,13 +192,9 @@ fun PropertyCard(property: Property, onClick: () -> Unit) {
                 )
 
                 // Status badge
-                val (statusColor, statusBg) = when (property.status) {
-                    PropertyStatus.URGENT -> StatusUrgent to StatusUrgentBg
-                    PropertyStatus.GOOD -> StatusGood to StatusGoodBg
-                    PropertyStatus.OCCUPIED -> StatusOccupied to StatusOccupiedBg
-                    PropertyStatus.VACANT -> StatusMedium to StatusMediumBg
-                    PropertyStatus.MAINTENANCE -> StatusHigh to StatusHighBg
-                }
+                val statusPair = getPropertyStatusColors(property.status)
+                val statusColor = statusPair.first
+                val statusBg = statusPair.second
 
                 Surface(
                     modifier = Modifier
@@ -233,5 +231,15 @@ fun PropertyCard(property: Property, onClick: () -> Unit) {
                 )
             }
         }
+    }
+}
+
+private fun getPropertyStatusColors(status: PropertyStatus): Pair<Color, Color> {
+    return when (status) {
+        PropertyStatus.URGENT -> Pair(StatusUrgent, StatusUrgentBg)
+        PropertyStatus.GOOD -> Pair(StatusGood, StatusGoodBg)
+        PropertyStatus.OCCUPIED -> Pair(StatusOccupied, StatusOccupiedBg)
+        PropertyStatus.VACANT -> Pair(StatusMedium, StatusMediumBg)
+        PropertyStatus.MAINTENANCE -> Pair(StatusHigh, StatusHighBg)
     }
 }

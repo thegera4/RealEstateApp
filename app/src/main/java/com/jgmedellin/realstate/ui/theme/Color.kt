@@ -42,6 +42,8 @@ val StatusMedium = Color(0xFFFBBF24)
 val StatusMediumBg = Color(0xFF3D351A)
 val StatusHigh = Color(0xFFF97316)
 val StatusHighBg = Color(0xFF3D2A1A)
+val StatusLow = Color(0xFF9AA0AC)
+val StatusLowBg = Color(0xFF242731)
 
 // Pastel Colors for Icons
 val PastelBlue = Color(0xFF60A5FA)

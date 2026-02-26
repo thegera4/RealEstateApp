@@ -79,20 +79,3 @@ set CLASSPATH=%APP_HOME%\gradle\wrapper\gradle-wrapper.jar
 if "%OS%"=="Windows_NT" endlocal
 
 :omega
-@if "%COMSPEC%" == "%SystemRoot%\system32\cmd.exe" goto endNT
-goto cleanup
-
-:endNT
-call :cleanup
-if not "" == "%GRADLE_EXIT_CONSOLE%" exit "%ERRORLEVEL%"
-exit /b "%ERRORLEVEL%"
-
-:cleanup
-set JAVA_EXE=
-set CLASSPATH=
-set DIRNAME=
-set APP_BASE_NAME=
-set APP_HOME=
-set DEFAULT_JVM_OPTS=
-
-goto omega

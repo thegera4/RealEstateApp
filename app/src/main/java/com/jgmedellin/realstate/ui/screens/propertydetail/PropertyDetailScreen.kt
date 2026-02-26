@@ -92,6 +92,7 @@ fun PropertyDetailScreen(
                     IconButton(
                         onClick = onBackClick,
                         modifier = Modifier
+                            .statusBarsPadding()
                             .padding(16.dp)
                             .align(Alignment.TopStart)
                             .clip(CircleShape)
@@ -267,7 +268,7 @@ fun PropertyDetailScreen(
 
 @Composable
 fun SpaceItem(space: Space) {
-    val (icon, color) = when (space.icon) {
+    val pair = when (space.icon) {
         SpaceIcon.KITCHEN -> Icons.Filled.Countertops to PastelOrange
         SpaceIcon.BATHROOM -> Icons.Filled.Bathtub to PastelBlue
         SpaceIcon.BEDROOM -> Icons.Filled.Bed to PastelPurple
@@ -279,6 +280,8 @@ fun SpaceItem(space: Space) {
         SpaceIcon.DINING -> Icons.Filled.DinnerDining to PastelGreen
         SpaceIcon.STORAGE -> Icons.Filled.Warehouse to PastelPurple
     }
+    val icon = pair.first
+    val color = pair.second
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

@@ -60,6 +60,8 @@ data class Asset(
 data class MaintenanceTask(
     val id: String,
     val title: String,
+    val description: String = "",
+    val category: String = "Maintenance",
     val propertyName: String,
     val priority: TaskPriority,
     val dueDate: String,
@@ -68,6 +70,7 @@ data class MaintenanceTask(
 )
 
 enum class TaskPriority(val label: String) {
+    URGENT("Urgent"),
     HIGH("High"),
     MEDIUM("Medium"),
     LOW("Low")

@@ -112,14 +112,14 @@ object MockRepository {
     )
 
     val maintenanceTasks = listOf(
-        MaintenanceTask("m1", "Fix leaking faucet", "Sunset Villa", TaskPriority.HIGH, "Feb 20, 2025", assignee = "Mike"),
-        MaintenanceTask("m2", "Replace AC filter", "Metro Tower", TaskPriority.MEDIUM, "Feb 22, 2025", assignee = "Sarah"),
-        MaintenanceTask("m3", "Paint exterior walls", "Green Park Apt", TaskPriority.LOW, "Mar 01, 2025", assignee = "Tom"),
-        MaintenanceTask("m4", "Repair garage door", "Lakeside Cottage", TaskPriority.HIGH, "Feb 18, 2025", assignee = "Mike"),
-        MaintenanceTask("m5", "Inspect fire alarms", "Downtown Lofts", TaskPriority.MEDIUM, "Feb 25, 2025", assignee = "Sarah"),
-        MaintenanceTask("m6", "Fix broken window", "Harbor Office", TaskPriority.HIGH, "Feb 19, 2025", isCompleted = true, assignee = "Tom"),
-        MaintenanceTask("m7", "Plumbing inspection", "Sunset Villa", TaskPriority.LOW, "Mar 05, 2025", isCompleted = true, assignee = "Mike"),
-        MaintenanceTask("m8", "Elevator maintenance", "Metro Tower", TaskPriority.HIGH, "Feb 15, 2025", isCompleted = true, assignee = "Sarah")
+        MaintenanceTask("m1", "Fix leaking faucet", "Water is dripping from the kitchen faucet", "Plumbing", "Sunset Villa", TaskPriority.HIGH, "Feb 20, 2025", assignee = "Mike"),
+        MaintenanceTask("m2", "Replace AC filter", "Standard quarterly filter replacement", "HVAC", "Metro Tower", TaskPriority.MEDIUM, "Feb 22, 2025", assignee = "Sarah"),
+        MaintenanceTask("m3", "Paint exterior walls", "Refreshing the main entrance appearance", "General", "Green Park Apt", TaskPriority.LOW, "Mar 01, 2025", assignee = "Tom"),
+        MaintenanceTask("m4", "Repair garage door", "Sensor is not detecting the remote", "Electrical", "Lakeside Cottage", TaskPriority.HIGH, "Feb 18, 2025", assignee = "Mike"),
+        MaintenanceTask("m5", "Inspect fire alarms", "Testing all smoke detectors on every floor", "Safety", "Downtown Lofts", TaskPriority.MEDIUM, "Feb 25, 2025", assignee = "Sarah"),
+        MaintenanceTask("m6", "Fix broken window", "Repairing the cracked pane in unit 4A", "Repair", "Harbor Office", TaskPriority.HIGH, "Feb 19, 2025", isCompleted = true, assignee = "Tom"),
+        MaintenanceTask("m7", "Plumbing inspection", "Full checkup of the main water line", "Plumbing", "Sunset Villa", TaskPriority.LOW, "Mar 05, 2025", isCompleted = true, assignee = "Mike"),
+        MaintenanceTask("m8", "Elevator maintenance", "Routine check for the north elevator", "Technical", "Metro Tower", TaskPriority.HIGH, "Feb 15, 2025", isCompleted = true, assignee = "Sarah")
     )
 
     val activityLogs = listOf(

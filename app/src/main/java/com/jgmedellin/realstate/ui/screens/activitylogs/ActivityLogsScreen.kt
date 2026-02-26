@@ -34,6 +34,7 @@ fun ActivityLogsScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .statusBarsPadding()
             .background(DarkBackground)
             .padding(horizontal = 16.dp)
     ) {
@@ -91,13 +92,15 @@ fun ActivityLogsScreen() {
 
 @Composable
 fun LogCard(log: ActivityLog) {
-    val (icon, color) = when (log.category) {
+    val pair = when (log.category) {
         LogCategory.MAINTENANCE -> Icons.Filled.Build to PastelOrange
         LogCategory.TENANT -> Icons.Filled.Person to PastelBlue
         LogCategory.FINANCIAL -> Icons.Filled.AttachMoney to PastelGreen
         LogCategory.INSPECTION -> Icons.Filled.Search to PastelPurple
         LogCategory.GENERAL -> Icons.Filled.Info to PastelTeal
     }
+    val icon = pair.first
+    val color = pair.second
 
     Card(
         shape = RoundedCornerShape(12.dp),

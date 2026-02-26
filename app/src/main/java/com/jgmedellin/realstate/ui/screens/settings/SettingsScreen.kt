@@ -35,6 +35,7 @@ fun SettingsScreen(onLogout: () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .statusBarsPadding()
             .background(DarkBackground)
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp)

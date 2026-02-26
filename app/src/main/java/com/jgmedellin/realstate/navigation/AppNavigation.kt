@@ -1,5 +1,7 @@
 package com.jgmedellin.realstate.navigation
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
@@ -30,6 +32,7 @@ import com.jgmedellin.realstate.ui.screens.dashboard.DashboardScreen
 import com.jgmedellin.realstate.ui.screens.login.LoginScreen
 import com.jgmedellin.realstate.ui.screens.maintenance.MaintenanceScreen
 import com.jgmedellin.realstate.ui.screens.propertydetail.PropertyDetailScreen
+import com.jgmedellin.realstate.ui.screens.register.RegisterScreen
 import com.jgmedellin.realstate.ui.screens.settings.SettingsScreen
 import com.jgmedellin.realstate.ui.theme.*
 
@@ -41,6 +44,7 @@ sealed class Screen(val route: String) {
     }
     data object ActivityLogs : Screen("activity_logs")
     data object Maintenance : Screen("maintenance")
+    data object Register : Screen("register")
     data object Settings : Screen("settings")
 }
 
@@ -64,7 +68,7 @@ fun AppNavigation() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    // Show bottom nav only for main screens
+    // Show bottom nav only for main screens (not login or register)
     val showBottomBar = currentDestination?.route in bottomNavItems.map { it.route }
 
     Scaffold(
@@ -117,7 +121,7 @@ fun AppNavigation() {
         NavHost(
             navController = navController,
             startDestination = Screen.Login.route,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.fillMaxSize()
         ) {
             composable(Screen.Login.route) {
                 LoginScreen(
@@ -125,16 +129,34 @@ fun AppNavigation() {
                         navController.navigate(Screen.Dashboard.route) {
                             popUpTo(Screen.Login.route) { inclusive = true }
                         }
+                    },
+                    onNavigateToRegister = {
+                        navController.navigate(Screen.Register.route)
+                    }
+                )
+            }
+
+            composable(Screen.Register.route) {
+                RegisterScreen(
+                    onRegisterSuccess = {
+                        navController.navigate(Screen.Dashboard.route) {
+                            popUpTo(Screen.Login.route) { inclusive = true }
+                        }
+                    },
+                    onNavigateToLogin = {
+                        navController.popBackStack()
                     }
                 )
             }
 
             composable(Screen.Dashboard.route) {
-                DashboardScreen(
-                    onPropertyClick = { propertyId ->
-                        navController.navigate(Screen.PropertyDetail.createRoute(propertyId))
-                    }
-                )
+                Box(modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())) {
+                    DashboardScreen(
+                        onPropertyClick = { propertyId ->
+                            navController.navigate(Screen.PropertyDetail.createRoute(propertyId))
+                        }
+                    )
+                }
             }
 
             composable(
@@ -142,23 +164,31 @@ fun AppNavigation() {
                 arguments = listOf(navArgument("propertyId") { type = NavType.StringType })
             ) { backStackEntry ->
                 val propertyId = backStackEntry.arguments?.getString("propertyId") ?: return@composable
-                PropertyDetailScreen(
-                    propertyId = propertyId,
-                    onBackClick = { navController.popBackStack() },
-                    onViewLogs = { navController.navigate(Screen.ActivityLogs.route) }
-                )
+                Box(modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())) {
+                    PropertyDetailScreen(
+                        propertyId = propertyId,
+                        onBackClick = { navController.popBackStack() },
+                        onViewLogs = { navController.navigate(Screen.ActivityLogs.route) }
+                    )
+                }
             }
 
             composable(Screen.ActivityLogs.route) {
-                ActivityLogsScreen()
+                Box(modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())) {
+                    ActivityLogsScreen()
+                }
             }
 
             composable(Screen.Maintenance.route) {
-                MaintenanceScreen()
+                Box(modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())) {
+                    MaintenanceScreen()
+                }
             }
 
             composable(Screen.Settings.route) {
-                SettingsScreen()
+                Box(modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())) {
+                    SettingsScreen()
+                }
             }
         }
     }
