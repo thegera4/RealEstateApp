@@ -27,6 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.jgmedellin.realstate.data.repository.AuthRepository
 import com.jgmedellin.realstate.ui.screens.activitylogs.ActivityLogsScreen
 import com.jgmedellin.realstate.ui.screens.dashboard.DashboardScreen
 import com.jgmedellin.realstate.ui.screens.login.LoginScreen
@@ -72,12 +73,12 @@ fun AppNavigation() {
     val showBottomBar = currentDestination?.route in bottomNavItems.map { it.route }
 
     Scaffold(
-        containerColor = DarkBackground,
+        containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             if (showBottomBar) {
                 NavigationBar(
-                    containerColor = BottomNavBg,
-                    tonalElevation = 0.dp
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    tonalElevation = 3.dp
                 ) {
                     bottomNavItems.forEach { item ->
                         val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
@@ -108,9 +109,9 @@ fun AppNavigation() {
                             colors = NavigationBarItemDefaults.colors(
                                 selectedIconColor = PrimaryBlue,
                                 selectedTextColor = PrimaryBlue,
-                                unselectedIconColor = TextTertiary,
-                                unselectedTextColor = TextTertiary,
-                                indicatorColor = PrimaryBlue.copy(alpha = 0.15f)
+                                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                indicatorColor = PrimaryBlue.copy(alpha = 0.1f)
                             )
                         )
                     }
@@ -187,7 +188,14 @@ fun AppNavigation() {
 
             composable(Screen.Settings.route) {
                 Box(modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())) {
-                    SettingsScreen()
+                    SettingsScreen(
+                        onLogout = {
+                            AuthRepository.signOut()
+                            navController.navigate(Screen.Login.route) {
+                                popUpTo(0) { inclusive = true }
+                            }
+                        }
+                    )
                 }
             }
         }

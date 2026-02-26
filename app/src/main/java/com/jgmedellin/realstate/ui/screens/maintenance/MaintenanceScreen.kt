@@ -61,7 +61,7 @@ fun MaintenanceScreen() {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(DarkBackground)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(horizontal = 16.dp)
         ) {
             item {
@@ -69,7 +69,7 @@ fun MaintenanceScreen() {
                 Text(
                     text = "Maintenance",
                     style = MaterialTheme.typography.headlineSmall,
-                    color = TextPrimary,
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(16.dp))
@@ -80,19 +80,19 @@ fun MaintenanceScreen() {
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
-                    placeholder = { Text("Search tasks...", color = TextTertiary) },
+                    placeholder = { Text("Search tasks...", color = MaterialTheme.colorScheme.onSurfaceVariant) },
                     leadingIcon = {
-                        Icon(Icons.Filled.Search, contentDescription = null, tint = TextSecondary)
+                        Icon(Icons.Filled.Search, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
                     },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = PrimaryBlue,
                         unfocusedBorderColor = Color.Transparent,
-                        focusedContainerColor = SearchBarBg,
-                        unfocusedContainerColor = SearchBarBg,
-                        focusedTextColor = TextPrimary,
-                        unfocusedTextColor = TextPrimary
+                        focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onSurface
                     ),
                     singleLine = true
                 )
@@ -115,10 +115,10 @@ fun MaintenanceScreen() {
                                 )
                             },
                             colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = ChipSelectedBg,
-                                selectedLabelColor = ChipSelectedText,
-                                containerColor = ChipUnselectedBg,
-                                labelColor = ChipUnselectedText
+                                selectedContainerColor = PrimaryBlue.copy(alpha = 0.12f),
+                                selectedLabelColor = PrimaryBlue,
+                                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                                labelColor = MaterialTheme.colorScheme.onSurfaceVariant
                             ),
                             border = null,
                             shape = RoundedCornerShape(20.dp)
@@ -133,7 +133,8 @@ fun MaintenanceScreen() {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = DarkCard)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Row(
@@ -144,17 +145,18 @@ fun MaintenanceScreen() {
                             Text(
                                 text = "Tasks Done",
                                 style = MaterialTheme.typography.titleMedium,
-                                color = TextPrimary,
+                                color = MaterialTheme.colorScheme.onSurface,
                                 fontWeight = FontWeight.SemiBold
                             )
+                            val statusColors = if (progress >= 0.5f) Pair(StatusGood, StatusGoodBgLight) else Pair(StatusHigh, StatusHighBgLight)
                             Surface(
                                 shape = RoundedCornerShape(12.dp),
-                                color = if (progress >= 0.5f) StatusGoodBg else StatusHighBg
+                                color = statusColors.second
                             ) {
                                 Text(
                                     text = "${(progress * 100).toInt()}%",
                                     style = MaterialTheme.typography.labelMedium,
-                                    color = if (progress >= 0.5f) StatusGood else StatusHigh,
+                                    color = statusColors.first,
                                     fontWeight = FontWeight.Bold,
                                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
                                 )
@@ -168,13 +170,13 @@ fun MaintenanceScreen() {
                                 .height(8.dp)
                                 .clip(RoundedCornerShape(4.dp)),
                             color = PrimaryBlue,
-                            trackColor = DarkSurfaceVariant,
+                            trackColor = MaterialTheme.colorScheme.surfaceVariant,
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = "$completedCount of $totalCount tasks completed",
                             style = MaterialTheme.typography.bodySmall,
-                            color = TextSecondary
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
@@ -268,7 +270,8 @@ fun TaskCard(task: MaintenanceTask) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = DarkCard)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Row(
             modifier = Modifier
@@ -282,7 +285,7 @@ fun TaskCard(task: MaintenanceTask) {
                 onClick = { },
                 colors = RadioButtonDefaults.colors(
                     selectedColor = StatusGood,
-                    unselectedColor = TextTertiary
+                    unselectedColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                 )
             )
 
@@ -309,21 +312,21 @@ fun TaskCard(task: MaintenanceTask) {
                     Text(
                         text = task.category,
                         style = MaterialTheme.typography.labelSmall,
-                        color = TextTertiary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = task.title,
                     style = MaterialTheme.typography.titleSmall,
-                    color = if (task.isCompleted) TextTertiary else TextPrimary,
+                    color = if (task.isCompleted) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.SemiBold
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = task.description,
                     style = MaterialTheme.typography.bodySmall,
-                    color = TextSecondary,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 2
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -334,28 +337,28 @@ fun TaskCard(task: MaintenanceTask) {
                         Icon(
                             Icons.Filled.Person,
                             contentDescription = null,
-                            tint = TextTertiary,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
                             modifier = Modifier.size(14.dp)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = task.assignee,
                             style = MaterialTheme.typography.labelSmall,
-                            color = TextTertiary
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             Icons.Filled.CalendarMonth,
                             contentDescription = null,
-                            tint = TextTertiary,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
                             modifier = Modifier.size(14.dp)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = task.dueDate,
                             style = MaterialTheme.typography.labelSmall,
-                            color = TextTertiary
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
                         )
                     }
                 }
@@ -393,8 +396,8 @@ fun AddMaintenanceTaskBottomSheet(onDismiss: () -> Unit) {
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = DarkSurface,
-        dragHandle = { BottomSheetDefaults.DragHandle(color = TextTertiary) }
+        containerColor = MaterialTheme.colorScheme.surface,
+        dragHandle = { BottomSheetDefaults.DragHandle(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)) }
     ) {
         Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)) {
             Row(
@@ -405,11 +408,11 @@ fun AddMaintenanceTaskBottomSheet(onDismiss: () -> Unit) {
                 Text(
                     text = "New Task",
                     style = MaterialTheme.typography.titleLarge,
-                    color = TextPrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
                 IconButton(onClick = onDismiss) {
-                    Icon(Icons.Filled.Close, contentDescription = "Close", tint = TextSecondary)
+                    Icon(Icons.Filled.Close, contentDescription = "Close", tint = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
 
@@ -424,13 +427,13 @@ fun AddMaintenanceTaskBottomSheet(onDismiss: () -> Unit) {
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = PrimaryBlue,
-                    unfocusedBorderColor = DividerColor,
-                    focusedContainerColor = DarkSurfaceVariant,
-                    unfocusedContainerColor = DarkSurfaceVariant,
-                    focusedTextColor = TextPrimary,
-                    unfocusedTextColor = TextPrimary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                     focusedLabelColor = PrimaryBlue,
-                    unfocusedLabelColor = TextSecondary
+                    unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 singleLine = true
             )
@@ -448,13 +451,13 @@ fun AddMaintenanceTaskBottomSheet(onDismiss: () -> Unit) {
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = PrimaryBlue,
-                    unfocusedBorderColor = DividerColor,
-                    focusedContainerColor = DarkSurfaceVariant,
-                    unfocusedContainerColor = DarkSurfaceVariant,
-                    focusedTextColor = TextPrimary,
-                    unfocusedTextColor = TextPrimary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                     focusedLabelColor = PrimaryBlue,
-                    unfocusedLabelColor = TextSecondary
+                    unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             )
 
@@ -464,7 +467,7 @@ fun AddMaintenanceTaskBottomSheet(onDismiss: () -> Unit) {
             Text(
                 text = "Priority",
                 style = MaterialTheme.typography.titleSmall,
-                color = TextSecondary
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -485,8 +488,8 @@ fun AddMaintenanceTaskBottomSheet(onDismiss: () -> Unit) {
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = bg,
                             selectedLabelColor = color,
-                            containerColor = ChipUnselectedBg,
-                            labelColor = ChipUnselectedText
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            labelColor = MaterialTheme.colorScheme.onSurfaceVariant
                         ),
                         border = null,
                         shape = RoundedCornerShape(20.dp)
@@ -501,18 +504,18 @@ fun AddMaintenanceTaskBottomSheet(onDismiss: () -> Unit) {
                 value = category,
                 onValueChange = { category = it },
                 label = { Text("Category") },
-                leadingIcon = { Icon(Icons.Filled.Build, contentDescription = null, tint = TextSecondary) },
+                leadingIcon = { Icon(Icons.Filled.Build, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant) },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = PrimaryBlue,
-                    unfocusedBorderColor = DividerColor,
-                    focusedContainerColor = DarkSurfaceVariant,
-                    unfocusedContainerColor = DarkSurfaceVariant,
-                    focusedTextColor = TextPrimary,
-                    unfocusedTextColor = TextPrimary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                     focusedLabelColor = PrimaryBlue,
-                    unfocusedLabelColor = TextSecondary
+                    unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 singleLine = true
             )
@@ -539,10 +542,10 @@ fun AddMaintenanceTaskBottomSheet(onDismiss: () -> Unit) {
 
 fun getPriorityColors(priority: TaskPriority): Pair<Color, Color> {
     return when (priority) {
-        TaskPriority.URGENT -> Pair(StatusUrgent, StatusUrgentBg)
-        TaskPriority.HIGH -> Pair(StatusHigh, StatusHighBg)
-        TaskPriority.MEDIUM -> Pair(StatusMedium, StatusMediumBg)
-        TaskPriority.LOW -> Pair(StatusLow, StatusLowBg)
+        TaskPriority.URGENT -> Pair(StatusUrgent, StatusUrgentBgLight)
+        TaskPriority.HIGH -> Pair(StatusHigh, StatusHighBgLight)
+        TaskPriority.MEDIUM -> Pair(StatusMedium, StatusMediumBgLight)
+        TaskPriority.LOW -> Pair(StatusLow, StatusLowBgLight)
     }
 }
 

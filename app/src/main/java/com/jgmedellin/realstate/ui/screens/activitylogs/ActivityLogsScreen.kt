@@ -35,7 +35,7 @@ fun ActivityLogsScreen() {
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
-            .background(DarkBackground)
+            .background(MaterialTheme.colorScheme.background)
             .padding(horizontal = 16.dp)
     ) {
         Spacer(modifier = Modifier.height(16.dp))
@@ -43,7 +43,7 @@ fun ActivityLogsScreen() {
         Text(
             text = "Activity Logs",
             style = MaterialTheme.typography.headlineSmall,
-            color = TextPrimary,
+            color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Bold
         )
 
@@ -67,10 +67,10 @@ fun ActivityLogsScreen() {
                         )
                     },
                     colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = ChipSelectedBg,
-                        selectedLabelColor = ChipSelectedText,
-                        containerColor = ChipUnselectedBg,
-                        labelColor = ChipUnselectedText
+                        selectedContainerColor = PrimaryBlue.copy(alpha = 0.12f),
+                        selectedLabelColor = PrimaryBlue,
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        labelColor = MaterialTheme.colorScheme.onSurfaceVariant
                     ),
                     border = null,
                     shape = RoundedCornerShape(20.dp)
@@ -104,7 +104,8 @@ fun LogCard(log: ActivityLog) {
 
     Card(
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = DarkCard)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
             modifier = Modifier
@@ -117,7 +118,7 @@ fun LogCard(log: ActivityLog) {
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(color.copy(alpha = 0.15f)),
+                    .background(color.copy(alpha = 0.12f)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
@@ -134,14 +135,14 @@ fun LogCard(log: ActivityLog) {
                 Text(
                     text = log.title,
                     style = MaterialTheme.typography.titleSmall,
-                    color = TextPrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.SemiBold
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = log.description,
                     style = MaterialTheme.typography.bodySmall,
-                    color = TextSecondary,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 2
                 )
                 Spacer(modifier = Modifier.height(6.dp))
@@ -157,7 +158,7 @@ fun LogCard(log: ActivityLog) {
                     Text(
                         text = log.timestamp,
                         style = MaterialTheme.typography.labelSmall,
-                        color = TextTertiary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
                     )
                 }
             }

@@ -32,14 +32,6 @@ import com.jgmedellin.realstate.data.repository.AuthRepository
 import com.jgmedellin.realstate.ui.theme.PrimaryBlue
 import kotlinx.coroutines.launch
 
-// Light-theme specific colors (login only)
-private val LightBg = Color(0xFFF5F7FA)
-private val LightCard = Color.White
-private val LightTextPrimary = Color(0xFF1A1C24)
-private val LightTextSecondary = Color(0xFF6B7280)
-private val LightFieldBg = Color(0xFFF9FAFB)
-private val LightFieldBorder = Color(0xFFE5E7EB)
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
@@ -64,7 +56,7 @@ fun LoginScreen(
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        containerColor = LightCard
+        containerColor = MaterialTheme.colorScheme.surface
     ) { padding ->
         Box(
             modifier = Modifier
@@ -91,7 +83,7 @@ fun LoginScreen(
                     .padding(top = 236.dp) // 260dp - 24dp overlap
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
-                    .background(LightCard)
+                    .background(MaterialTheme.colorScheme.surface)
                     .padding(horizontal = 24.dp, vertical = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -118,7 +110,7 @@ fun LoginScreen(
                     text = "Welcome Back",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    color = LightTextPrimary
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
                 Spacer(modifier = Modifier.height(6.dp))
@@ -126,7 +118,7 @@ fun LoginScreen(
                 Text(
                     text = "Sign in to manage your properties\nand maintenance requests.",
                     fontSize = 14.sp,
-                    color = LightTextSecondary,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center,
                     lineHeight = 20.sp
                 )
@@ -139,20 +131,20 @@ fun LoginScreen(
                         text = "Email Address",
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Medium,
-                        color = LightTextPrimary
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                     Spacer(modifier = Modifier.height(6.dp))
                     OutlinedTextField(
                         value = email,
                         onValueChange = { email = it },
                         placeholder = {
-                            Text("name@example.com", color = LightTextSecondary.copy(alpha = 0.5f))
+                            Text("name@example.com", color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f))
                         },
                         trailingIcon = {
                             Icon(
                                 Icons.Filled.Email,
                                 contentDescription = null,
-                                tint = LightTextSecondary.copy(alpha = 0.4f),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
                                 modifier = Modifier.size(20.dp)
                             )
                         },
@@ -160,11 +152,11 @@ fun LoginScreen(
                         shape = RoundedCornerShape(10.dp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = PrimaryBlue,
-                            unfocusedBorderColor = LightFieldBorder,
-                            focusedContainerColor = LightFieldBg,
-                            unfocusedContainerColor = LightFieldBg,
-                            focusedTextColor = LightTextPrimary,
-                            unfocusedTextColor = LightTextPrimary
+                            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onSurface
                         ),
                         singleLine = true
                     )
@@ -183,7 +175,7 @@ fun LoginScreen(
                             text = "Password",
                             fontSize = 13.sp,
                             fontWeight = FontWeight.Medium,
-                            color = LightTextPrimary
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
                             text = "Forgot Password?",
@@ -198,14 +190,14 @@ fun LoginScreen(
                         value = password,
                         onValueChange = { password = it },
                         placeholder = {
-                            Text("Enter your password", color = LightTextSecondary.copy(alpha = 0.5f))
+                            Text("Enter your password", color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f))
                         },
                         trailingIcon = {
                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
                                 Icon(
                                     imageVector = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
                                     contentDescription = "Toggle password visibility",
-                                    tint = LightTextSecondary.copy(alpha = 0.4f),
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
                                     modifier = Modifier.size(20.dp)
                                 )
                             }
@@ -215,11 +207,11 @@ fun LoginScreen(
                         shape = RoundedCornerShape(10.dp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = PrimaryBlue,
-                            unfocusedBorderColor = LightFieldBorder,
-                            focusedContainerColor = LightFieldBg,
-                            unfocusedContainerColor = LightFieldBg,
-                            focusedTextColor = LightTextPrimary,
-                            unfocusedTextColor = LightTextPrimary
+                            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onSurface
                         ),
                         singleLine = true
                     )
@@ -280,16 +272,16 @@ fun LoginScreen(
                 ) {
                     HorizontalDivider(
                         modifier = Modifier.weight(1f),
-                        color = LightFieldBorder
+                        color = MaterialTheme.colorScheme.outline
                     )
                     Text(
                         text = "  Or continue with  ",
                         fontSize = 13.sp,
-                        color = LightTextSecondary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     HorizontalDivider(
                         modifier = Modifier.weight(1f),
-                        color = LightFieldBorder
+                        color = MaterialTheme.colorScheme.outline
                     )
                 }
 
@@ -308,8 +300,8 @@ fun LoginScreen(
                         shape = RoundedCornerShape(10.dp),
                         border = ButtonDefaults.outlinedButtonBorder(enabled = true),
                         colors = ButtonDefaults.outlinedButtonColors(
-                            containerColor = Color.White,
-                            contentColor = LightTextPrimary
+                            containerColor = MaterialTheme.colorScheme.surface,
+                            contentColor = MaterialTheme.colorScheme.onSurface
                         )
                     ) {
                         Text(
@@ -330,8 +322,8 @@ fun LoginScreen(
                         shape = RoundedCornerShape(10.dp),
                         border = ButtonDefaults.outlinedButtonBorder(enabled = true),
                         colors = ButtonDefaults.outlinedButtonColors(
-                            containerColor = Color.White,
-                            contentColor = LightTextPrimary
+                            containerColor = MaterialTheme.colorScheme.surface,
+                            contentColor = MaterialTheme.colorScheme.onSurface
                         )
                     ) {
                         Text(
@@ -354,7 +346,7 @@ fun LoginScreen(
                     Text(
                         text = "Don't have an account? ",
                         fontSize = 14.sp,
-                        color = LightTextSecondary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         text = "Sign Up",

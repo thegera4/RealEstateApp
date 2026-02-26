@@ -60,7 +60,7 @@ fun DashboardScreen(onPropertyClick: (String) -> Unit) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(DarkBackground)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(horizontal = 16.dp)
         ) {
             Spacer(modifier = Modifier.height(16.dp))
@@ -69,7 +69,7 @@ fun DashboardScreen(onPropertyClick: (String) -> Unit) {
             Text(
                 text = "My Properties",
                 style = MaterialTheme.typography.headlineSmall,
-                color = TextPrimary,
+                color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Bold
             )
 
@@ -79,12 +79,12 @@ fun DashboardScreen(onPropertyClick: (String) -> Unit) {
             OutlinedTextField(
                 value = searchQuery,
                 onValueChange = { searchQuery = it },
-                placeholder = { Text("Search properties...", color = TextTertiary) },
+                placeholder = { Text("Search properties...", color = MaterialTheme.colorScheme.onSurfaceVariant) },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Search,
                         contentDescription = null,
-                        tint = TextSecondary
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 },
                 modifier = Modifier.fillMaxWidth(),
@@ -92,10 +92,10 @@ fun DashboardScreen(onPropertyClick: (String) -> Unit) {
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = PrimaryBlue,
                     unfocusedBorderColor = Color.Transparent,
-                    focusedContainerColor = SearchBarBg,
-                    unfocusedContainerColor = SearchBarBg,
-                    focusedTextColor = TextPrimary,
-                    unfocusedTextColor = TextPrimary
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface
                 ),
                 singleLine = true
             )
@@ -119,10 +119,10 @@ fun DashboardScreen(onPropertyClick: (String) -> Unit) {
                             )
                         },
                         colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = ChipSelectedBg,
-                            selectedLabelColor = ChipSelectedText,
-                            containerColor = ChipUnselectedBg,
-                            labelColor = ChipUnselectedText
+                            selectedContainerColor = PrimaryBlue.copy(alpha = 0.12f),
+                            selectedLabelColor = PrimaryBlue,
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            labelColor = MaterialTheme.colorScheme.onSurfaceVariant
                         ),
                         border = null,
                         shape = RoundedCornerShape(20.dp)
@@ -170,7 +170,8 @@ fun PropertyCard(property: Property, onClick: () -> Unit) {
             .fillMaxWidth()
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = DarkCard)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column {
             // Image with status badge
@@ -218,7 +219,7 @@ fun PropertyCard(property: Property, onClick: () -> Unit) {
                 Text(
                     text = property.name,
                     style = MaterialTheme.typography.titleSmall,
-                    color = TextPrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 1
                 )
@@ -226,7 +227,7 @@ fun PropertyCard(property: Property, onClick: () -> Unit) {
                 Text(
                     text = property.address,
                     style = MaterialTheme.typography.bodySmall,
-                    color = TextSecondary,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 2
                 )
             }
@@ -236,10 +237,10 @@ fun PropertyCard(property: Property, onClick: () -> Unit) {
 
 private fun getPropertyStatusColors(status: PropertyStatus): Pair<Color, Color> {
     return when (status) {
-        PropertyStatus.URGENT -> Pair(StatusUrgent, StatusUrgentBg)
-        PropertyStatus.GOOD -> Pair(StatusGood, StatusGoodBg)
-        PropertyStatus.OCCUPIED -> Pair(StatusOccupied, StatusOccupiedBg)
-        PropertyStatus.VACANT -> Pair(StatusMedium, StatusMediumBg)
-        PropertyStatus.MAINTENANCE -> Pair(StatusHigh, StatusHighBg)
+        PropertyStatus.URGENT -> Pair(StatusUrgent, StatusUrgentBgLight)
+        PropertyStatus.GOOD -> Pair(StatusGood, StatusGoodBgLight)
+        PropertyStatus.OCCUPIED -> Pair(StatusOccupied, StatusOccupiedBgLight)
+        PropertyStatus.VACANT -> Pair(StatusMedium, StatusMediumBgLight)
+        PropertyStatus.MAINTENANCE -> Pair(StatusHigh, StatusHighBgLight)
     }
 }

@@ -55,7 +55,7 @@ fun PropertyDetailScreen(
 
     if (property == null) return
 
-    Box(modifier = Modifier.fillMaxSize().background(DarkBackground)) {
+    Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             // Header Image
             item {
@@ -81,8 +81,8 @@ fun PropertyDetailScreen(
                                 Brush.verticalGradient(
                                     colors = listOf(
                                         Color.Transparent,
-                                        DarkBackground.copy(alpha = 0.8f),
-                                        DarkBackground
+                                        MaterialTheme.colorScheme.background.copy(alpha = 0.6f),
+                                        MaterialTheme.colorScheme.background
                                     ),
                                     startY = 100f
                                 )
@@ -96,12 +96,12 @@ fun PropertyDetailScreen(
                             .padding(16.dp)
                             .align(Alignment.TopStart)
                             .clip(CircleShape)
-                            .background(DarkBackground.copy(alpha = 0.5f))
+                            .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.7f))
                     ) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back",
-                            tint = TextPrimary
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
                     // Property info overlay
@@ -113,20 +113,20 @@ fun PropertyDetailScreen(
                         Text(
                             text = property.name,
                             style = MaterialTheme.typography.headlineMedium,
-                            color = TextPrimary,
+                            color = MaterialTheme.colorScheme.onBackground,
                             fontWeight = FontWeight.Bold
                         )
                         if (property.tenant != null) {
                             Text(
                                 text = "Tenant: ${property.tenant}",
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = TextSecondary
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                         Text(
                             text = property.address,
                             style = MaterialTheme.typography.bodySmall,
-                            color = TextTertiary
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
                         )
                     }
                 }
@@ -143,14 +143,14 @@ fun PropertyDetailScreen(
                         Text(
                             text = "Spaces",
                             style = MaterialTheme.typography.titleLarge,
-                            color = TextPrimary,
+                            color = MaterialTheme.colorScheme.onBackground,
                             fontWeight = FontWeight.SemiBold
                         )
                         IconButton(
                             onClick = { showAddSpaceSheet = true },
                             modifier = Modifier
                                 .clip(CircleShape)
-                                .background(PrimaryBlue.copy(alpha = 0.15f))
+                                .background(PrimaryBlue.copy(alpha = 0.12f))
                                 .size(36.dp)
                         ) {
                             Icon(
@@ -185,7 +185,7 @@ fun PropertyDetailScreen(
                         Text(
                             text = "Installed Assets",
                             style = MaterialTheme.typography.titleLarge,
-                            color = TextPrimary,
+                            color = MaterialTheme.colorScheme.onBackground,
                             fontWeight = FontWeight.SemiBold
                         )
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -193,13 +193,13 @@ fun PropertyDetailScreen(
                                 onClick = onViewLogs,
                                 modifier = Modifier
                                     .clip(CircleShape)
-                                    .background(DarkSurfaceVariant)
+                                    .background(MaterialTheme.colorScheme.surfaceVariant)
                                     .size(36.dp)
                             ) {
                                 Icon(
                                     Icons.Filled.History,
                                     contentDescription = "View Logs",
-                                    tint = TextSecondary,
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                     modifier = Modifier.size(20.dp)
                                 )
                             }
@@ -207,7 +207,7 @@ fun PropertyDetailScreen(
                                 onClick = { showAddAssetSheet = true },
                                 modifier = Modifier
                                     .clip(CircleShape)
-                                    .background(PrimaryBlue.copy(alpha = 0.15f))
+                                    .background(PrimaryBlue.copy(alpha = 0.12f))
                                     .size(36.dp)
                             ) {
                                 Icon(
@@ -224,19 +224,19 @@ fun PropertyDetailScreen(
                     OutlinedTextField(
                         value = searchQuery,
                         onValueChange = { searchQuery = it },
-                        placeholder = { Text("Search assets...", color = TextTertiary) },
+                        placeholder = { Text("Search assets...", color = MaterialTheme.colorScheme.onSurfaceVariant) },
                         leadingIcon = {
-                            Icon(Icons.Filled.Search, contentDescription = null, tint = TextSecondary)
+                            Icon(Icons.Filled.Search, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
                         },
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = PrimaryBlue,
                             unfocusedBorderColor = Color.Transparent,
-                            focusedContainerColor = SearchBarBg,
-                            unfocusedContainerColor = SearchBarBg,
-                            focusedTextColor = TextPrimary,
-                            unfocusedTextColor = TextPrimary
+                            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onSurface
                         ),
                         singleLine = true
                     )
@@ -268,18 +268,7 @@ fun PropertyDetailScreen(
 
 @Composable
 fun SpaceItem(space: Space) {
-    val pair = when (space.icon) {
-        SpaceIcon.KITCHEN -> Icons.Filled.Countertops to PastelOrange
-        SpaceIcon.BATHROOM -> Icons.Filled.Bathtub to PastelBlue
-        SpaceIcon.BEDROOM -> Icons.Filled.Bed to PastelPurple
-        SpaceIcon.LIVING_ROOM -> Icons.Filled.Weekend to PastelGreen
-        SpaceIcon.PATIO -> Icons.Filled.Yard to PastelTeal
-        SpaceIcon.GARAGE -> Icons.Filled.Garage to PastelPink
-        SpaceIcon.OFFICE -> Icons.Filled.Computer to PastelBlue
-        SpaceIcon.LAUNDRY -> Icons.Filled.LocalLaundryService to PastelOrange
-        SpaceIcon.DINING -> Icons.Filled.DinnerDining to PastelGreen
-        SpaceIcon.STORAGE -> Icons.Filled.Warehouse to PastelPurple
-    }
+    val pair = getSpaceIconData(space.icon)
     val icon = pair.first
     val color = pair.second
 
@@ -291,7 +280,7 @@ fun SpaceItem(space: Space) {
             modifier = Modifier
                 .size(56.dp)
                 .clip(CircleShape)
-                .background(color.copy(alpha = 0.15f)),
+                .background(color.copy(alpha = 0.12f)),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -305,7 +294,7 @@ fun SpaceItem(space: Space) {
         Text(
             text = space.name,
             style = MaterialTheme.typography.labelSmall,
-            color = TextSecondary,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1
         )
     }
@@ -316,7 +305,8 @@ fun AssetCard(asset: Asset, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = DarkCard)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
             modifier = Modifier
@@ -343,13 +333,13 @@ fun AssetCard(asset: Asset, modifier: Modifier = Modifier) {
                 Text(
                     text = asset.name,
                     style = MaterialTheme.typography.titleSmall,
-                    color = TextPrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.SemiBold
                 )
                 Text(
                     text = asset.model,
                     style = MaterialTheme.typography.bodySmall,
-                    color = TextSecondary
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -368,7 +358,7 @@ fun AssetCard(asset: Asset, modifier: Modifier = Modifier) {
                     Text(
                         text = asset.purchaseDate,
                         style = MaterialTheme.typography.labelSmall,
-                        color = TextTertiary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
                     )
                 }
             }
@@ -384,7 +374,7 @@ fun AssetCard(asset: Asset, modifier: Modifier = Modifier) {
                     Icon(
                         Icons.Filled.Receipt,
                         contentDescription = "Receipt",
-                        tint = TextSecondary,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -395,7 +385,7 @@ fun AssetCard(asset: Asset, modifier: Modifier = Modifier) {
                     Icon(
                         Icons.Filled.History,
                         contentDescription = "Logs",
-                        tint = TextSecondary,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                         modifier = Modifier.size(18.dp)
                     )
                 }
@@ -414,8 +404,8 @@ fun AddSpaceBottomSheet(onDismiss: () -> Unit) {
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = DarkSurface,
-        dragHandle = { BottomSheetDefaults.DragHandle(color = TextTertiary) }
+        containerColor = MaterialTheme.colorScheme.surface,
+        dragHandle = { BottomSheetDefaults.DragHandle(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)) }
     ) {
         Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)) {
             Row(
@@ -426,11 +416,11 @@ fun AddSpaceBottomSheet(onDismiss: () -> Unit) {
                 Text(
                     text = "Add New Space",
                     style = MaterialTheme.typography.titleLarge,
-                    color = TextPrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
                 IconButton(onClick = onDismiss) {
-                    Icon(Icons.Filled.Close, contentDescription = "Close", tint = TextSecondary)
+                    Icon(Icons.Filled.Close, contentDescription = "Close", tint = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
 
@@ -444,13 +434,13 @@ fun AddSpaceBottomSheet(onDismiss: () -> Unit) {
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = PrimaryBlue,
-                    unfocusedBorderColor = DividerColor,
-                    focusedContainerColor = DarkSurfaceVariant,
-                    unfocusedContainerColor = DarkSurfaceVariant,
-                    focusedTextColor = TextPrimary,
-                    unfocusedTextColor = TextPrimary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                     focusedLabelColor = PrimaryBlue,
-                    unfocusedLabelColor = TextSecondary
+                    unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 singleLine = true
             )
@@ -460,7 +450,7 @@ fun AddSpaceBottomSheet(onDismiss: () -> Unit) {
             Text(
                 text = "Select Icon",
                 style = MaterialTheme.typography.titleSmall,
-                color = TextSecondary
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -481,7 +471,7 @@ fun AddSpaceBottomSheet(onDismiss: () -> Unit) {
                                     .weight(1f)
                                     .clickable { selectedIcon = spaceIcon },
                                 shape = RoundedCornerShape(12.dp),
-                                color = if (isSelected) PrimaryBlue.copy(alpha = 0.2f) else DarkSurfaceVariant,
+                                color = if (isSelected) PrimaryBlue.copy(alpha = 0.12f) else MaterialTheme.colorScheme.surfaceVariant,
                                 border = if (isSelected) {
                                     BorderStroke(1.5.dp, PrimaryBlue)
                                 } else null
@@ -500,7 +490,7 @@ fun AddSpaceBottomSheet(onDismiss: () -> Unit) {
                                     Text(
                                         text = spaceIcon.label,
                                         style = MaterialTheme.typography.labelSmall,
-                                        color = if (isSelected) PrimaryBlue else TextSecondary,
+                                        color = if (isSelected) PrimaryBlue else MaterialTheme.colorScheme.onSurfaceVariant,
                                         maxLines = 1
                                     )
                                 }
@@ -545,8 +535,8 @@ fun AddAssetBottomSheet(onDismiss: () -> Unit) {
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
-        containerColor = DarkSurface,
-        dragHandle = { BottomSheetDefaults.DragHandle(color = TextTertiary) }
+        containerColor = MaterialTheme.colorScheme.surface,
+        dragHandle = { BottomSheetDefaults.DragHandle(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)) }
     ) {
         Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp)) {
             Row(
@@ -557,11 +547,11 @@ fun AddAssetBottomSheet(onDismiss: () -> Unit) {
                 Text(
                     text = "Add New Asset",
                     style = MaterialTheme.typography.titleLarge,
-                    color = TextPrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
                 IconButton(onClick = onDismiss) {
-                    Icon(Icons.Filled.Close, contentDescription = "Close", tint = TextSecondary)
+                    Icon(Icons.Filled.Close, contentDescription = "Close", tint = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
 
@@ -576,13 +566,13 @@ fun AddAssetBottomSheet(onDismiss: () -> Unit) {
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = PrimaryBlue,
-                    unfocusedBorderColor = DividerColor,
-                    focusedContainerColor = DarkSurfaceVariant,
-                    unfocusedContainerColor = DarkSurfaceVariant,
-                    focusedTextColor = TextPrimary,
-                    unfocusedTextColor = TextPrimary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                     focusedLabelColor = PrimaryBlue,
-                    unfocusedLabelColor = TextSecondary
+                    unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 singleLine = true
             )
@@ -594,18 +584,18 @@ fun AddAssetBottomSheet(onDismiss: () -> Unit) {
                 value = room,
                 onValueChange = { room = it },
                 label = { Text("Room") },
-                leadingIcon = { Icon(Icons.Filled.MeetingRoom, contentDescription = null, tint = TextSecondary) },
+                leadingIcon = { Icon(Icons.Filled.MeetingRoom, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant) },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = PrimaryBlue,
-                    unfocusedBorderColor = DividerColor,
-                    focusedContainerColor = DarkSurfaceVariant,
-                    unfocusedContainerColor = DarkSurfaceVariant,
-                    focusedTextColor = TextPrimary,
-                    unfocusedTextColor = TextPrimary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                     focusedLabelColor = PrimaryBlue,
-                    unfocusedLabelColor = TextSecondary
+                    unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 singleLine = true
             )
@@ -617,18 +607,18 @@ fun AddAssetBottomSheet(onDismiss: () -> Unit) {
                 value = purchaseDate,
                 onValueChange = { purchaseDate = it },
                 label = { Text("Purchase Date") },
-                leadingIcon = { Icon(Icons.Filled.CalendarMonth, contentDescription = null, tint = TextSecondary) },
+                leadingIcon = { Icon(Icons.Filled.CalendarMonth, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant) },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = PrimaryBlue,
-                    unfocusedBorderColor = DividerColor,
-                    focusedContainerColor = DarkSurfaceVariant,
-                    unfocusedContainerColor = DarkSurfaceVariant,
-                    focusedTextColor = TextPrimary,
-                    unfocusedTextColor = TextPrimary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                     focusedLabelColor = PrimaryBlue,
-                    unfocusedLabelColor = TextSecondary
+                    unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 singleLine = true
             )
@@ -642,8 +632,8 @@ fun AddAssetBottomSheet(onDismiss: () -> Unit) {
                     .height(100.dp)
                     .clickable { },
                 shape = RoundedCornerShape(12.dp),
-                color = DarkSurfaceVariant,
-                border = BorderStroke(1.dp, DividerColor)
+                color = MaterialTheme.colorScheme.surfaceVariant,
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
@@ -653,14 +643,14 @@ fun AddAssetBottomSheet(onDismiss: () -> Unit) {
                     Icon(
                         Icons.Filled.CloudUpload,
                         contentDescription = null,
-                        tint = TextTertiary,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                         modifier = Modifier.size(32.dp)
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = "Receipt or Asset Photo",
                         style = MaterialTheme.typography.bodySmall,
-                        color = TextTertiary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                     )
                 }
             }

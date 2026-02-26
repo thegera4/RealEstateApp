@@ -36,7 +36,7 @@ fun SettingsScreen(onLogout: () -> Unit = {}) {
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
-            .background(DarkBackground)
+            .background(MaterialTheme.colorScheme.background)
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp)
     ) {
@@ -45,7 +45,7 @@ fun SettingsScreen(onLogout: () -> Unit = {}) {
         Text(
             text = "Settings",
             style = MaterialTheme.typography.headlineSmall,
-            color = TextPrimary,
+            color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Bold
         )
 
@@ -55,7 +55,8 @@ fun SettingsScreen(onLogout: () -> Unit = {}) {
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = DarkCard)
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
         ) {
             Row(
                 modifier = Modifier
@@ -81,13 +82,13 @@ fun SettingsScreen(onLogout: () -> Unit = {}) {
                     Text(
                         text = user.name,
                         style = MaterialTheme.typography.titleMedium,
-                        color = TextPrimary,
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.SemiBold
                     )
                     Text(
                         text = user.email,
                         style = MaterialTheme.typography.bodySmall,
-                        color = TextSecondary
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Text(
                         text = user.jobTitle,
@@ -112,7 +113,7 @@ fun SettingsScreen(onLogout: () -> Unit = {}) {
         Text(
             text = "ACCOUNT",
             style = MaterialTheme.typography.labelLarge,
-            color = TextTertiary,
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -120,7 +121,8 @@ fun SettingsScreen(onLogout: () -> Unit = {}) {
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = DarkCard)
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
         ) {
             Column {
                 SettingsItem(
@@ -129,14 +131,14 @@ fun SettingsScreen(onLogout: () -> Unit = {}) {
                     subtitle = "Update your personal information",
                     onClick = { showEditDialog = true }
                 )
-                HorizontalDivider(color = DividerColor, modifier = Modifier.padding(horizontal = 16.dp))
+                HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f), modifier = Modifier.padding(horizontal = 16.dp))
                 SettingsItem(
                     icon = Icons.Filled.Notifications,
                     title = "Notifications",
                     subtitle = "Manage notification preferences",
                     onClick = { }
                 )
-                HorizontalDivider(color = DividerColor, modifier = Modifier.padding(horizontal = 16.dp))
+                HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f), modifier = Modifier.padding(horizontal = 16.dp))
                 SettingsItem(
                     icon = Icons.Filled.Lock,
                     title = "Privacy & Security",
@@ -151,7 +153,7 @@ fun SettingsScreen(onLogout: () -> Unit = {}) {
         Text(
             text = "PREFERENCES",
             style = MaterialTheme.typography.labelLarge,
-            color = TextTertiary,
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -159,7 +161,8 @@ fun SettingsScreen(onLogout: () -> Unit = {}) {
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = DarkCard)
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
         ) {
             Column {
                 SettingsItem(
@@ -168,7 +171,7 @@ fun SettingsScreen(onLogout: () -> Unit = {}) {
                     subtitle = "Dark mode",
                     onClick = { }
                 )
-                HorizontalDivider(color = DividerColor, modifier = Modifier.padding(horizontal = 16.dp))
+                HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f), modifier = Modifier.padding(horizontal = 16.dp))
                 SettingsItem(
                     icon = Icons.Filled.Language,
                     title = "Language",
@@ -183,7 +186,7 @@ fun SettingsScreen(onLogout: () -> Unit = {}) {
         Text(
             text = "SUPPORT",
             style = MaterialTheme.typography.labelLarge,
-            color = TextTertiary,
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -191,7 +194,8 @@ fun SettingsScreen(onLogout: () -> Unit = {}) {
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = DarkCard)
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
         ) {
             Column {
                 SettingsItem(
@@ -200,7 +204,7 @@ fun SettingsScreen(onLogout: () -> Unit = {}) {
                     subtitle = "FAQs, contact support",
                     onClick = { }
                 )
-                HorizontalDivider(color = DividerColor, modifier = Modifier.padding(horizontal = 16.dp))
+                HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f), modifier = Modifier.padding(horizontal = 16.dp))
                 SettingsItem(
                     icon = Icons.Filled.Info,
                     title = "About",
@@ -283,20 +287,20 @@ fun SettingsItem(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleSmall,
-                color = TextPrimary,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Medium
             )
             Text(
                 text = subtitle,
                 style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
 
         Icon(
             Icons.Filled.ChevronRight,
             contentDescription = null,
-            tint = TextTertiary,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
             modifier = Modifier.size(20.dp)
         )
     }
@@ -314,13 +318,13 @@ fun EditProfileDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        containerColor = DarkSurface,
+        containerColor = MaterialTheme.colorScheme.surface,
         shape = RoundedCornerShape(20.dp),
         title = {
             Text(
                 text = "Edit Profile",
                 style = MaterialTheme.typography.titleLarge,
-                color = TextPrimary,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold
             )
         },
@@ -330,18 +334,18 @@ fun EditProfileDialog(
                     value = name,
                     onValueChange = { name = it },
                     label = { Text("Full Name") },
-                    leadingIcon = { Icon(Icons.Filled.Person, contentDescription = null, tint = TextSecondary) },
+                    leadingIcon = { Icon(Icons.Filled.Person, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = PrimaryBlue,
-                        unfocusedBorderColor = DividerColor,
-                        focusedContainerColor = DarkSurfaceVariant,
-                        unfocusedContainerColor = DarkSurfaceVariant,
-                        focusedTextColor = TextPrimary,
-                        unfocusedTextColor = TextPrimary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                        focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                         focusedLabelColor = PrimaryBlue,
-                        unfocusedLabelColor = TextSecondary
+                        unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
                     ),
                     singleLine = true
                 )
@@ -349,18 +353,18 @@ fun EditProfileDialog(
                     value = jobTitle,
                     onValueChange = { jobTitle = it },
                     label = { Text("Job Title") },
-                    leadingIcon = { Icon(Icons.Filled.Work, contentDescription = null, tint = TextSecondary) },
+                    leadingIcon = { Icon(Icons.Filled.Work, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant) },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = PrimaryBlue,
-                        unfocusedBorderColor = DividerColor,
-                        focusedContainerColor = DarkSurfaceVariant,
-                        unfocusedContainerColor = DarkSurfaceVariant,
-                        focusedTextColor = TextPrimary,
-                        unfocusedTextColor = TextPrimary,
+                        unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                        focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                        focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                         focusedLabelColor = PrimaryBlue,
-                        unfocusedLabelColor = TextSecondary
+                        unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
                     ),
                     singleLine = true
                 )
@@ -377,7 +381,7 @@ fun EditProfileDialog(
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel", color = TextSecondary)
+                Text("Cancel", color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
     )
